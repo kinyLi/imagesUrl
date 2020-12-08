@@ -2,13 +2,53 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>App</title>
+  <title>upload</title>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/4.9.2/antd.min.css" integrity="sha512-k0GcTf25yZBvSm9H9DLiNu0apQBi19eaDQxJtNahwhtRJ7ljuiTM6h+AjTOmfgFUkp51ZYVizvhvGAJWcHxPgQ==" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/antd/4.9.2/antd.min.js" integrity="sha512-kiAy7e2/6cySU9/xqxu6MkzTqe+RO7iz+hnihRgBUkV+KW55STyNSDZ1Rzdw/I8B7joJeZnojB2w4SRm3JD+EQ==" crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="root"></div>
+  <script type="text/babel">
+    const props = {
+      name: 'file',
+      action: 'http://localhost:4399/setImage',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      fileList: [],
+      onChange(info) {
+
+        if(info && info.file && info.file.response) {
+          if(info.file.response.src) {
+            antd.message.success(`${info.file.response.src} 文件地址`)
+          }
+        }
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          antd.message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          antd.message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
+    const app = document.getElementById('root');
+    const RootCompoent = () => (
+      <div>
+        <div>kiny个人图床</div>
+        <antd.Upload {...props}>
+          <antd.Button>上传</antd.Button>
+        </antd.Upload>
+      </div>
+    );
+    ReactDOM.render(<RootCompoent/>, app);
+  </script>
 </body>
-<script type="text/babel">
 
-
-</script>
 </html>

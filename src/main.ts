@@ -14,11 +14,16 @@ async function bootstrap() {
   app.use(multipart());
   // 大小限制
   app.use(bodyParser.json({ 'limit': '6000kb' }));
-
+  // 映射静态资源
+  app.use('/image',serveStatic(path.join(__dirname,'./upload'), {
+    maxAge: '1d', // 缓存最大时间
+    extensions:['jpg', 'jpeg', 'png', 'gif'], //文件格式
+  }))
   // 渲染html
   app.useStaticAssets(path.join(__dirname, '..', 'public'));
   app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
   await app.listen(4399);
+
 }
 bootstrap();
