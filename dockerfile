@@ -7,4 +7,4 @@ RUN yarn
 RUN yarn build
 RUN pm2 start /usr/local/imagesUrl/dist/main.js
 
-EXPOSE 5700
+EXPOSE 4399
